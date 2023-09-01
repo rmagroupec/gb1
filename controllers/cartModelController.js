@@ -1,32 +1,35 @@
 //import the model
+const cartModel = require("../models/cartModel");
 const Cart = require("../models/cartModel");
 
 //define route handler
 const createCartModel = async (req, res) => {
   try {
     //extract title and desxcription from reauest body
-    const { cid, transdate } = req.body;
+    const cart_obj = new cartModel({
+      customer_id:req.body.customer_id,
+      vendor_id:req.body.vendor_id,
+      store_id:req.body.store_id,
+      product_id:req.body.product_id,
+      quantity:req.body.quantity,
+      price:req.body.price
+    })
 
-    // Check if there is already an existing cart with the specified cid
-    const existingCart = await Cart.findOne({ cid });
+    
 
-    if (existingCart) {                               //if cart is there it will give error.
-      return res.status(400).json({
-        success: false,
-        message: "Cart with cid already exists",
-      });
-    }
-
-    const response = await Cart.create({
-      cid,
-      transdate,
+   cart_obj.save().then(()=> res.send({
+    success: true,
+    // data: res,
+    message: "creatd successfully",
+  })).catch((err) =>{
+    res.send({
+      success: false,
+      data: "internal server error",
+      message: err.message,
     });
+  })
     //send a json response with a success flag
-    res.status(200).json({
-      success: true,
-      data: response,
-      message: "Entry Created Successfully",
-    });
+    
   } catch (err) {
     console.error(err);
     console.log(err);
@@ -78,7 +81,7 @@ const getCartModel = async (req, res) => {
 const getCartModelById = async (req, res) => {
   try {
     const id = req.params.id;
-    const cart = await Cart.findById({ _id: id });
+    const cart = await Cart.find({ customer_id: id });
 
     if (!cart) {
       return res.status(404).json({
@@ -104,12 +107,23 @@ const getCartModelById = async (req, res) => {
 
 const updateCartModel = async (req, res) => {
   try {
-    const { id, cid, transdate } = req.body;
-    const cart = await Cart.findByIdAndUpdate(
+    const { id, increDecre } = req.body;
+    if (increDecre == "add"){
+    const cart = await Cart.findById(
       { _id: id },
-      { cid, transdate },
-      { new: true }
+     
     );
+    cart.updateOne( { quantity:cart.quantity+1 },
+      { new: true })
+  }
+  else if(increDecre == "remove"){
+    const cart = await Cart.findById(
+      { _id: id },
+      
+    );
+    cart.updateOne( { quantity:cart.quantity-1 },
+      { new: true })
+  }
 
     if (!cart) {
       return res.status(404).json({
@@ -120,7 +134,7 @@ const updateCartModel = async (req, res) => {
     res.status(200).json({
       success: true,
       data: cart,
-      message: `Cart ${id} data updated successfully`,
+      message: `Cart updated successfully`,
     });
   } catch (err) {
     console.error(err);

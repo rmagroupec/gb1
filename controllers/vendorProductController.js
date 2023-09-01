@@ -27,6 +27,9 @@ const createVendorProduct = async (req, res) => {
       price:req.body.price,
       est_price:req.body.est_price,
       pdesc:req.body.pdesc,
+      product_cat:req.body.product_cat,
+      must_try:req.body.must_try,
+      best_seller:req.body.best_seller,
       variable_product:req.body.variable_product,
     });
     //send a json response with a success flag

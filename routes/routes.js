@@ -147,6 +147,33 @@ const {
 } = require("../controllers/mainCategoryController");
 
 
+const {
+  createRatingReview,
+  getRatingReview,
+  getRatingReviewById,
+  deleteRatingReview,
+  updateRatingReviewModel
+} = require("../controllers/StoreRatingReviewController");
+
+
+const {
+  createVendorWallet,
+  getVendorWallet,
+  getVendorWalletById,
+  deleteVendorWallet,
+  updateVendorWallet,
+} = require("../controllers/VendorWalletController");
+
+const {
+  createCustomerPoints,
+  getCustomerPoints,
+  getCustomerPointsById,
+  deleteCustomerPoints,
+  updateCustomerPoints,
+} = require("../controllers/CustomerPointsController");
+
+
+const {paymentReceipt, postPayment} = require('../controllers/paymentController');
 const { loginVendor } = require("../controllers/loginController");
 
 //define APi routes
@@ -218,9 +245,10 @@ router.delete("/deleteMainCategory/:id", deleteMainCategory);
 
 
 //cartModel
-router.post("/createCartModel", createCartModel);
-router.get("/getCartModel", getCartModel);
-router.get("/getCartModel/:id", getCartModelById);
+router.post("/addtocart", createCartModel);
+router.get("/getCart", getCartModel);
+router.get("/getCartByUser/:id", getCartModelById);
+router.put("/updateCartQuantity", updateCartModel);
 router.delete("/deleteCartModel/:id", deleteCartModel);
 
 //cartProduct
@@ -255,6 +283,37 @@ router.get("/getVendorProduct", getVendorProduct);
 router.get("/getVendorProduct/:id", getVendorProductById);
 router.delete("/deleteVendorProduct/:id", deleteVendorProduct);
 
+
+// paytm payment gateway
+router.post("/post_payment", postPayment);
+router.post("/payment_receipt", paymentReceipt);
+
+
+// rating review route
+
+router.post("/createRatingReview", createRatingReview);
+router.get("/getRatingReview", getRatingReview);
+router.get("/getRatingReview/:id", getRatingReviewById);
+router.delete("/deleteRatingReview/:id", deleteRatingReview);
+router.put("/updateRatingReview", updateRatingReviewModel);
+
+
+// vendor wallet route
+
+
+router.post("/createVendorWallet", createVendorWallet);
+router.get("/getVendorWallet", getVendorWallet);
+router.get("/getVendorWallet/:id", getVendorWalletById);
+router.delete("/deleteVendorWallet/:id", deleteVendorWallet);
+router.put("/updateVendorWallet", updateVendorWallet);
+
+
+// customer points route
+router.post("/createCustomerPoints", createCustomerPoints);
+router.get("/getCustomerPoints", getCustomerPoints);
+router.get("/getCustomerPoints/:id", getCustomerPointsById);
+router.delete("/deleteCustomerPoints/:id", deleteCustomerPoints);
+router.put("/updateCustomerPoints", updateCustomerPoints);
 
 
 

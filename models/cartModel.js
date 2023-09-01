@@ -6,12 +6,37 @@ const cartModelSchema = new mongoose.Schema({
     primaryKey: true,
     autoIncrement: true,
   },
-  cid: {
+  customer_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     foreignKey: "cid",
     ref: " customer",
   },
+  product_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    foreignKey: "id",
+    ref: " product",
+  },
+  vendor_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    foreignKey: "id",
+    ref: "vendor",
+  },
+  store_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    foreignKey: "id",
+    ref: "vendorStore",
+  },
+  price: {
+    type:String
+  },
+  quantity: {
+    type:Number
+  },
+
   transdate: {
     type: Date,
     default: Date.now(),

@@ -41,6 +41,15 @@ const vendorProductModelSchema = new mongoose.Schema({
   pdesc: {
     type: String,
   },
+  best_seller: {
+    type: String,
+  },
+  must_try: {
+    type: String,
+  },
+  product_cat: {
+    type: String,
+  },
   variable_product: {
     type: Array,
     // default: false,
